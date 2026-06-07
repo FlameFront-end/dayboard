@@ -1,0 +1,75 @@
+{
+  "name": "dayboard",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Dayboard",
+  "description": "Always-visible execution board for today.",
+  "main": "dist-electron/main/index.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"vite\" \"vite build --watch --config vite.electron.config.ts\" \"wait-on tcp:5173 file:dist-electron/main/index.cjs file:dist-electron/preload/index.cjs && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 node scripts/dev-electron.cjs\"",
+    "build": "tsc --noEmit && vite build && vite build --config vite.electron.config.ts",
+    "dist": "npm run build && electron-builder",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "build": {
+    "appId": "com.dayboard.app",
+    "productName": "Dayboard",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "build/**",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "dist-electron/main/index.cjs"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "electron-store": "^10.1.0",
+    "lucide-react": "^1.17.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.1",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.0.0",
+    "electron": "^37.2.3",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "sass": "^1.89.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1",
+    "vite": "^7.0.0",
+    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "vitest": "^3.2.4",
+    "wait-on": "^8.0.5"
+  }
+}

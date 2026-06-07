@@ -1,0 +1,136 @@
+.panel {
+  width: min(100%, 300px);
+  height: 100%;
+  padding: 18px 16px;
+  background: var(--panel-elevated);
+  border-left: 1px solid var(--border);
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  -webkit-app-region: no-drag;
+}
+
+.header,
+.toggle,
+.themeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.section {
+  display: grid;
+  gap: 10px;
+}
+
+.label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.themeRow {
+  justify-content: flex-start;
+}
+
+.iconButton,
+.chip,
+.activeChip {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--text-secondary);
+}
+
+.chip,
+.activeChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  text-transform: capitalize;
+}
+
+.activeChip {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+.toggle {
+  color: var(--text-primary);
+}
+
+.toggleLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.checkboxBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--panel);
+  color: transparent;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.checkbox:hover .checkboxBox {
+  border-color: var(--accent-muted);
+  background: #161616;
+}
+
+.checkbox:focus-visible .checkboxBox {
+  outline: 1px solid var(--accent-muted);
+  outline-offset: 2px;
+}
+
+.checkboxChecked .checkboxBox {
+  border-color: #bdbdbd;
+  background: #f3f3f3;
+  color: #111111;
+}
+
+.checkboxChecked:hover .checkboxBox {
+  border-color: #ffffff;
+  background: #ffffff;
+}
+
+.footer {
+  margin-top: auto;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}

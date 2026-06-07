@@ -1,0 +1,319 @@
+.board {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  height: 100%;
+  min-width: 0;
+  background: var(--panel);
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--border);
+  overflow: hidden;
+}
+
+.header {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  -webkit-app-region: drag;
+}
+
+.headerCollapsed {
+  gap: 6px;
+  padding: 10px 12px 8px;
+}
+
+.headerLocked {
+  -webkit-app-region: no-drag;
+}
+
+.headerMain,
+.headerActions,
+.footer,
+.reminderBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.headerMain {
+  align-items: flex-start;
+}
+
+.headerCollapsed .headerMain {
+  justify-content: flex-start;
+}
+
+.headerTitleBlock {
+  min-width: 0;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.header p {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.headerMeta {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.headerRight {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 12px;
+  min-width: 0;
+}
+
+.headerCollapsed .headerRight {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.headerCollapsed .headerMeta {
+  gap: 1px;
+}
+
+.headerCollapsed .dateLabel {
+  font-size: 14px;
+}
+
+.headerCollapsed .clock {
+  font-size: 12px;
+}
+
+.headerCollapsed .windowActions {
+  gap: 6px;
+}
+
+.dateLabel {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.clock {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.daySwitch,
+.windowActions,
+.reminderActions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+  min-width: 0;
+}
+
+.headerActions {
+  align-items: center;
+}
+
+.headerActionsCollapsed {
+  display: none;
+}
+
+.daySwitch {
+  flex: 1;
+  overflow: hidden;
+}
+
+.windowActions {
+  flex-shrink: 0;
+}
+
+.chip,
+.activeChip,
+.iconButton,
+.footer button,
+.reminderActions button {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel-elevated);
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip,
+.activeChip {
+  flex-shrink: 0;
+}
+
+.activeChip {
+  border-color: var(--accent);
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.headerCollapsed .iconButton {
+  width: 28px;
+  height: 28px;
+}
+
+.iconButton svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.activeIcon {
+  color: var(--accent);
+}
+
+.inactiveIcon {
+  color: var(--text-secondary);
+  opacity: 0.88;
+}
+
+.reminderBar {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.reminderText {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reminderActions button,
+.footer button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.listSection {
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: auto;
+}
+
+.loading {
+  padding: 20px 16px;
+  color: var(--text-muted);
+}
+
+.footer {
+  flex-wrap: nowrap;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.footerStats,
+.footerStat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.footerDot {
+  color: var(--text-muted);
+}
+
+.footerActionSlot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 142px;
+  min-height: 32px;
+  flex-shrink: 0;
+}
+
+.footerActionVisible,
+.footerActionHidden {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 142px;
+}
+
+.footerActionHidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(0, 0, 0, 0.48);
+  -webkit-app-region: no-drag;
+}
+
+@media (max-width: 300px) {
+  .header {
+    gap: 10px;
+    padding: 12px 14px 10px;
+  }
+
+  .headerMain {
+    align-items: flex-start;
+  }
+
+  .headerRight {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .headerCollapsed .headerRight {
+    align-items: center;
+  }
+
+  .headerActions {
+    gap: 10px;
+  }
+
+  .daySwitch {
+    gap: 6px;
+  }
+
+  .chip,
+  .activeChip {
+    padding: 6px 9px;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+  }
+
+  .footerActionSlot,
+  .footerActionVisible,
+  .footerActionHidden {
+    min-width: 100%;
+  }
+}

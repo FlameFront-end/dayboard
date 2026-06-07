@@ -1,0 +1,42 @@
+.container {
+  position: relative;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.containerCompact {
+  padding: 8px 12px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel-elevated);
+  color: var(--text-primary);
+  padding: 12px 14px 12px 40px;
+  outline: none;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.containerCompact .icon {
+  left: 24px;
+}
+
+.containerCompact .input {
+  min-height: 34px;
+  padding: 8px 12px 8px 34px;
+  border-radius: 10px;
+}
