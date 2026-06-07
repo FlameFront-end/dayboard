@@ -10,6 +10,7 @@
     "dev": "concurrently -k \"vite\" \"vite build --watch --config vite.electron.config.ts\" \"wait-on tcp:5173 file:dist-electron/main/index.cjs file:dist-electron/preload/index.cjs && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 node scripts/dev-electron.cjs\"",
     "build": "tsc --noEmit && vite build && vite build --config vite.electron.config.ts",
     "dist": "npm run build && electron-builder",
+    "version": "changeset version",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
@@ -51,6 +52,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@eslint/js": "^9.30.1",
     "@types/node": "^24.0.10",
     "@types/react": "^19.2.2",

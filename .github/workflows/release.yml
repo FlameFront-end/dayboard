@@ -1,0 +1,109 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create release PR or prepare release
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: npm run version
+          commit: "chore: release"
+          title: "chore: release"
+          createGithubReleases: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read package version
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        id: package_version
+        shell: bash
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Check existing tag
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        id: tag_check
+        shell: bash
+        run: |
+          git fetch --tags --force
+          VERSION="${{ steps.package_version.outputs.version }}"
+
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify
+        if: steps.tag_check.outputs.should_release == 'true'
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
+          npm run build
+
+      - name: Build installer
+        if: steps.tag_check.outputs.should_release == 'true'
+        run: npm run dist
+
+      - name: Create and push tag
+        if: steps.tag_check.outputs.should_release == 'true'
+        shell: bash
+        run: |
+          VERSION="${{ steps.package_version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag "v${VERSION}"
+          git push origin "v${VERSION}"
+
+      - name: Upload release artifacts
+        if: steps.tag_check.outputs.should_release == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dayboard-release-v${{ steps.package_version.outputs.version }}
+          path: |
+            release/*.exe
+            release/*.exe.blockmap
+            release/latest.yml
+          if-no-files-found: error
+
+      - name: Publish GitHub release
+        if: steps.tag_check.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.package_version.outputs.version }}
+          name: Dayboard v${{ steps.package_version.outputs.version }}
+          generate_release_notes: true
+          prerelease: false
+          files: |
+            release/*.exe
+            release/*.exe.blockmap
+            release/latest.yml
